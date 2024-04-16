@@ -33,6 +33,8 @@ public partial struct SearchSystem : ISystem
             Time = SystemAPI.Time.ElapsedTime,
             ECB = ECB,
         }.Schedule(JobHandle.CombineDependencies(dep, state.Dependency));
+        state.Dependency.Complete();
+        flowerEntities.Dispose();
     }
 }
 
