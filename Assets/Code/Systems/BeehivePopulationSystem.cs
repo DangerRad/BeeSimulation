@@ -11,6 +11,7 @@ public partial struct BeehiveSystem : ISystem
     ComponentTypeHandle<HiveChunkStats> hiveChunkHandle;
     SharedComponentTypeHandle<SquadHiveID> squadHiveIdHandle;
     ComponentTypeHandle<BeeSquad> beeSquadHandle;
+    NativeArray<int> totalBeeSquadCount;
 
     public void OnCreate(ref SystemState state)
     {
@@ -18,6 +19,7 @@ public partial struct BeehiveSystem : ISystem
         state.RequireForUpdate<Beehive>();
 
         populationByHIveID = new NativeParallelHashMap<int, int>(100, Allocator.Persistent);
+        totalBeeSquadCount = new NativeArray<int>(1, Allocator.Persistent);
         squadHiveIdHandle = state.GetSharedComponentTypeHandle<SquadHiveID>();
         hiveChunkHandle = state.GetComponentTypeHandle<HiveChunkStats>();
         beeSquadHandle = state.GetComponentTypeHandle<BeeSquad>();
@@ -28,14 +30,15 @@ public partial struct BeehiveSystem : ISystem
     public void OnDestroy(ref SystemState state)
     {
         populationByHIveID.Dispose();
+        totalBeeSquadCount.Dispose();
     }
 
     public void OnUpdate(ref SystemState state)
     {
-        var config = SystemAPI.GetSingleton<Config>();
-        if (!config.MakeSimulationStep())
+        var config = SystemAPI.GetSingletonRW<Config>();
+        if (!config.ValueRO.MakeSimulationStep())
             return;
-
+        config.ValueRW.BeeSquadCount = totalBeeSquadCount[0];
         if (!populationByHIveID.ContainsKey(0))
         {
             foreach (var beehive in SystemAPI.Query<RefRO<Beehive>>())
@@ -48,6 +51,8 @@ public partial struct BeehiveSystem : ISystem
         {
             hivePopulation.Value = 0;
         }
+
+        totalBeeSquadCount[0] = 0;
 
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
@@ -66,7 +71,8 @@ public partial struct BeehiveSystem : ISystem
         {
             HiveChunkStatsTypeHandle = hiveChunkHandle,
             SquadHiveIDTypeHandle = squadHiveIdHandle,
-            PopulationByID = populationByHIveID
+            PopulationByID = populationByHIveID,
+            TotalBeeSquadCount = totalBeeSquadCount
         }.Schedule(beeSquadQuery, state.Dependency);
         state.Dependency.Complete();
 
@@ -79,6 +85,7 @@ public partial struct BeehiveSystem : ISystem
             {
                 totalFoodStored += currentBeehive[i];
             }
+
             currentBeehive.TotalFood = totalFoodStored;
             ECB.SetComponent(entity, currentBeehive);
         }
@@ -96,13 +103,19 @@ internal struct UpdateHiveChunkStatsJob : IJobChunk
     {
         NativeArray<BeeSquad> beeSquads = chunk.GetNativeArray(ref BeeSquadTypeHandle);
         var en = new ChunkEntityEnumerator(useEnabledMask, chunkEnabledMask, chunk.Count);
-        int count = 0;
+        int beeCount = 0;
+        int squadCount = 0;
         while (en.NextEntityIndex(out int i))
         {
-            count += beeSquads[i].Size;
+            beeCount += beeSquads[i].Size;
+            squadCount++;
         }
 
-        chunk.SetChunkComponentData(ref HiveChunkStatsTypeHandle, new HiveChunkStats { Count = count });
+        chunk.SetChunkComponentData(ref HiveChunkStatsTypeHandle, new HiveChunkStats
+        {
+            BeeCount = beeCount,
+            SquadCount = squadCount
+        });
     }
 }
 
@@ -112,12 +125,14 @@ internal struct CombineHiveChunkStatsJob : IJobChunk
     [ReadOnly] public ComponentTypeHandle<HiveChunkStats> HiveChunkStatsTypeHandle;
     [ReadOnly] public SharedComponentTypeHandle<SquadHiveID> SquadHiveIDTypeHandle;
     public NativeParallelHashMap<int, int> PopulationByID;
+    public NativeArray<int> TotalBeeSquadCount;
 
     public void Execute(in ArchetypeChunk chunk, int unfilteredChunkIndex, bool useEnabledMask,
         in v128 chunkEnabledMask)
     {
         HiveChunkStats hiveChunkStats = chunk.GetChunkComponentData(ref HiveChunkStatsTypeHandle);
         int hiveID = chunk.GetSharedComponent(SquadHiveIDTypeHandle).Value;
-        PopulationByID[hiveID] += hiveChunkStats.Count;
+        PopulationByID[hiveID] += hiveChunkStats.BeeCount;
+        TotalBeeSquadCount[0] += hiveChunkStats.SquadCount;
     }
 }

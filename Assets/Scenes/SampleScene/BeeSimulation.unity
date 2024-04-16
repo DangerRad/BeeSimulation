@@ -283,8 +283,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   FlowerPrefab: {fileID: 6566681527763270393, guid: 86952909e115e8b4c85279d7c3ba5cea,
     type: 3}
-  SpawnArea: 20
-  spawnAmount: 200
+  SpawnArea: 40
+  spawnAmount: 500
 --- !u!135 &1538030113
 SphereCollider:
   m_ObjectHideFlags: 0

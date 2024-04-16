@@ -29,8 +29,8 @@ public partial struct BeehiveSpawnSystem : ISystem
         {
             int birthRateBase = i % 2 == 0 ? 2000 : 1300;
             var beehiveEntity = state.EntityManager.Instantiate(spawner.Beehive);
-            float4 beeHiveColor = rng.NextFloat4(0, 2);
-            beeHiveColor.w = 0;
+            float4 beeHiveColor = rng.NextFloat4(0, 1);
+            beeHiveColor.w = 1;
 
             Beehive beehive = state.EntityManager.GetComponentData<Beehive>(beehiveEntity);
             beehive.Id = i;

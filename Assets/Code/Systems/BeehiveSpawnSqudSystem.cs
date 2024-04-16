@@ -33,7 +33,7 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
             state.EntityManager.SetComponentEnabled<Moving>(beeSquadEntityTemplate, false);
         }
 
-        int MAX_SQUAD_SIZE = 500;
+        int MAX_SQUAD_SIZE = 200;
         foreach (var (beehive, transform, color, entity)
                  in SystemAPI.Query<RefRO<Beehive>,
                          RefRO<LocalToWorld>,

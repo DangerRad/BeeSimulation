@@ -38,7 +38,7 @@ public partial struct SimulationControlSystem : ISystem
         int currentTickInDay = currentTick % ticksInDayNight;
         DayPhase currentDayPhase = CalculateDayPhase(currentTickInDay);
         GlobalInfoController.TickPassed?.Invoke(currentTick, ticksInYear, dayOfTheYear, currentSeason,
-            currentDayPhase);
+            currentDayPhase,config.ValueRO.BeeSquadCount);
     }
 
     //TODO change to more scalable version

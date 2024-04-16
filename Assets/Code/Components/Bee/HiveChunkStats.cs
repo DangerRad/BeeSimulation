@@ -2,5 +2,6 @@
 
 public struct HiveChunkStats : IComponentData
 {
-    public int Count;
+    public int BeeCount;
+    public int SquadCount;
 }

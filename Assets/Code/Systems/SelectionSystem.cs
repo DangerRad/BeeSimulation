@@ -13,6 +13,14 @@ public partial class SelectionSystem : SystemBase
 
     protected override void OnCreate()
     {
+
+        RequireForUpdate<Hit>();
+        RequireForUpdate<Config>();
+        RequireForUpdate<PhysicsWorldSingleton>();
+    }
+
+    protected override void OnStartRunning()
+    {
         _mainCamera = Camera.main;
     }
 

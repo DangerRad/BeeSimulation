@@ -35,6 +35,7 @@ public class ConfigAuthoring : MonoBehaviour
 
 public struct Config : IComponentData
 {
+    public int BeeSquadCount;
     public float TickLength;
     public float TimeToNextStep;
     public int TicksInYear;
