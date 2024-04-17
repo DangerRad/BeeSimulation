@@ -1,7 +1,9 @@
-﻿using Unity.Burst;
+﻿using System;
+using Unity.Burst;
 using Unity.Burst.Intrinsics;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
 
 public partial struct BeehiveSystem : ISystem
@@ -12,6 +14,8 @@ public partial struct BeehiveSystem : ISystem
     SharedComponentTypeHandle<SquadHiveID> squadHiveIdHandle;
     ComponentTypeHandle<BeeSquad> beeSquadHandle;
     NativeArray<int> totalBeeSquadCount;
+
+    int NumberFlowerSpecies;
 
     public void OnCreate(ref SystemState state)
     {
@@ -25,6 +29,8 @@ public partial struct BeehiveSystem : ISystem
         beeSquadHandle = state.GetComponentTypeHandle<BeeSquad>();
         beeSquadQuery = state.GetEntityQuery(typeof(BeeSquad), ComponentType.ChunkComponent<HiveChunkStats>(),
             typeof(SquadHiveID));
+
+        NumberFlowerSpecies = Enum.GetNames(typeof(FlowerSpecies)).Length;
     }
 
     public void OnDestroy(ref SystemState state)
@@ -80,13 +86,22 @@ public partial struct BeehiveSystem : ISystem
         {
             Beehive currentBeehive = beehive.ValueRO;
             currentBeehive.Population = populationByHIveID[currentBeehive.Id];
-            float totalFoodStored = 0;
-            for (int i = 0; i < 3; i++)
+            float totalFood = 0;
+            for (int i = 0; i < NumberFlowerSpecies; i++)
             {
-                totalFoodStored += currentBeehive[i];
+                totalFood += currentBeehive[i];
             }
 
-            currentBeehive.TotalFood = totalFoodStored;
+            float foodEatenPerTick = currentBeehive.FoodExpenditureTick * currentBeehive.Population;
+            for (int i = 0; i < NumberFlowerSpecies; i++)
+            {
+                float currentSpeciesEaten = foodEatenPerTick * (currentBeehive[i] / totalFood);
+                currentSpeciesEaten = math.clamp(currentSpeciesEaten, 0, currentBeehive[i]);
+                currentBeehive[i] -= currentSpeciesEaten;
+                totalFood -= currentSpeciesEaten;
+            }
+
+            currentBeehive.TotalFood = totalFood;
             ECB.SetComponent(entity, currentBeehive);
         }
     }

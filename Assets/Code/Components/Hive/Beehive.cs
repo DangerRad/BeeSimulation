@@ -10,7 +10,7 @@ unsafe public struct Beehive : IComponentData
     public int BeesBirthPerDay;
     public BlobAssetReference<BirthRateOverYearData> BirthRateData;
     public int Population;
-    public float FoodExpenditureBeeDay;
+    public float FoodExpenditureTick;
     public fixed float FoodStoredByType[3];
 
     public readonly float BirthRateAtPoint(int currentTick) =>
