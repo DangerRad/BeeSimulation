@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using Unity.Burst;
 using Unity.Collections;
@@ -6,6 +7,8 @@ using Unity.Entities;
 
 public partial struct SimulationControlSystem : ISystem
 {
+
+    public static Action<int> DayNightTickPassed;
     [BurstCompile]
     public void OnCreate(ref SystemState state)
     {
@@ -36,9 +39,11 @@ public partial struct SimulationControlSystem : ISystem
         Season currentSeason = (Season)(currentYearTick / ticksInSeason);
         int dayOfTheYear = (currentTick % ticksInYear) / ticksInDayNight;
         int currentTickInDay = currentTick % ticksInDayNight;
+        int currentDayNightTick = currentTick % ticksInDayNight;
         DayPhase currentDayPhase = CalculateDayPhase(currentTickInDay);
         GlobalInfoController.TickPassed?.Invoke(currentTick, ticksInYear, dayOfTheYear, currentSeason,
-            currentDayPhase,config.ValueRO.BeeSquadCount);
+            currentDayPhase, config.ValueRO.BeeSquadCount); // move action to here and subscribe from controller.
+        DayNightTickPassed?.Invoke(currentDayNightTick);
     }
 
     //TODO change to more scalable version

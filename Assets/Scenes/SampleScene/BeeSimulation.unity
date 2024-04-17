@@ -131,43 +131,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1392235343594268673, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: Amount
-      value: 50
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392235343594268673, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: BeePrefab
-      value: 
-      objectReference: {fileID: 3685791884867939543, guid: 33b36342762b9a5409a325723999e359,
-        type: 3}
-    - target: {fileID: 1392235343594268673, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: SpawnArea
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1392235343594268673, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: BeehivePrefab
-      value: 
-      objectReference: {fileID: 418376529547178692, guid: e5ae28db2a99a934b8784d72abb1a96b,
-        type: 3}
-    - target: {fileID: 1717185776750190805, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717185776750190805, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1717185776750190805, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.1
-      objectReference: {fileID: 0}
     - target: {fileID: 1717185776750190805, guid: 4e885ac963d52f8459aa26df66509f4e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -218,27 +181,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: BeePrefab
-      value: 
-      objectReference: {fileID: 3685791884867939543, guid: 33b36342762b9a5409a325723999e359,
-        type: 3}
-    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: TickLength
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: TicksInYear
-      value: 1872
-      objectReference: {fileID: 0}
-    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
-        type: 3}
-      propertyPath: TicksInNight
-      value: 12
-      objectReference: {fileID: 0}
     - target: {fileID: 2480797512116040116, guid: 4e885ac963d52f8459aa26df66509f4e,
         type: 3}
       propertyPath: m_Name
@@ -285,6 +227,7 @@ MonoBehaviour:
     type: 3}
   SpawnArea: 40
   spawnAmount: 500
+  FlowerScale: 0.4
 --- !u!135 &1538030113
 SphereCollider:
   m_ObjectHideFlags: 0
