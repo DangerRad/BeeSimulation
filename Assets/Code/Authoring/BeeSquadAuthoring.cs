@@ -13,7 +13,7 @@ public class beeSquadAuthoring : MonoBehaviour
             AddComponent(entity, new BeeSquad());
             AddComponent(entity, new Target());
             AddComponent(entity, new Roaming());
-            AddComponent(entity, new Timer { TimeLeft = 1f });
+            AddComponent(entity, new Timer { TimeLeft = SimulationData.TIME_SPENT_COLLECTING });
             AddComponent(entity, new Moving());
         }
     }

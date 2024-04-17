@@ -6,6 +6,7 @@ public class FlowerSpawnerAuthoring : MonoBehaviour
     public GameObject FlowerPrefab;
     public float SpawnArea;
     public int spawnAmount;
+    public float FlowerScale = 0.4f;
 
     class Baker : Baker<FlowerSpawnerAuthoring>
     {
@@ -16,7 +17,8 @@ public class FlowerSpawnerAuthoring : MonoBehaviour
             {
                 FlowerPrefab = GetEntity(authoring.FlowerPrefab, TransformUsageFlags.Dynamic),
                 SpawnArea = authoring.SpawnArea,
-                SpawnAmount = authoring.spawnAmount
+                SpawnAmount = authoring.spawnAmount,
+                FlowerScale = authoring.FlowerScale
             });
         }
     }
@@ -27,4 +29,5 @@ public struct FlowerSpawner : IComponentData
     public Entity FlowerPrefab;
     public float SpawnArea;
     public int SpawnAmount;
+    public float FlowerScale;
 }

@@ -35,7 +35,7 @@ public partial struct BeehiveSpawnSystem : ISystem
             Beehive beehive = state.EntityManager.GetComponentData<Beehive>(beehiveEntity);
             beehive.Id = i;
             beehive.BeesBirthPerDay = rng.NextInt(birthRateBase - birthRateBase / 2, birthRateBase);
-            beehive.FoodExpenditureTick = 0.000001f;
+            beehive.FoodExpenditureTick = SimulationData.FOOD_EATEN_TICK;
 
             state.EntityManager.SetComponentData(beehiveEntity, beehive);
             state.EntityManager.SetComponentData(beehiveEntity, RandomTransform.Randomize(ref rng, spawnArea,

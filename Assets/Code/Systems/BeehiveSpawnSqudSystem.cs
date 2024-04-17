@@ -33,7 +33,6 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
             state.EntityManager.SetComponentEnabled<Moving>(beeSquadEntityTemplate, false);
         }
 
-        int MAX_SQUAD_SIZE = 200;
         foreach (var (beehive, transform, color, entity)
                  in SystemAPI.Query<RefRO<Beehive>,
                          RefRO<LocalToWorld>,
@@ -48,7 +47,7 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
 
             while (totalBeesToSpawn > 0)
             {
-                int beeSquadSize = ((totalBeesToSpawn - 1) % MAX_SQUAD_SIZE) + 1;
+                int beeSquadSize = ((totalBeesToSpawn - 1) % SimulationData.MAX_SQUAD_SIZE) + 1;
                 totalBeesToSpawn -= beeSquadSize;
 
                 var beeSquadEntity = ecb.Instantiate(beeSquadEntityTemplate);
@@ -61,9 +60,9 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
                     new BeeColonyStats
                     {
                         HivePosition = transform.ValueRO.Position,
-                        Speed = 9f,
-                        FoodGatherSpeed = 0.006f,
-                        MaxFoodHeld = 0.02f,
+                        Speed = SimulationData.BEE_SPEED,
+                        FoodGatherSpeed = SimulationData.FOOD_GATHER_SPEED,
+                        MaxFoodHeld = SimulationData.MAX_FOOD_HELD,
                         BeehiveEntity = entity,
                     });
                 ecb.AddSharedComponent(beeSquadEntity, new SquadHiveID
@@ -75,7 +74,7 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
                 ecb.SetComponent(beeSquadEntity, new LocalTransform
                 {
                     Position = transform.ValueRO.Position,
-                    Scale = 0.15f,
+                    Scale = SimulationData.BEE_SCALE,
                     Rotation = quaternion.identity,
                 });
             }

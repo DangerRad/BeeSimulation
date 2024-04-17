@@ -15,7 +15,7 @@ public partial struct BeehiveSystem : ISystem
     ComponentTypeHandle<BeeSquad> beeSquadHandle;
     NativeArray<int> totalBeeSquadCount;
 
-    int NumberFlowerSpecies;
+    int numberFlowerSpecies;
 
     public void OnCreate(ref SystemState state)
     {
@@ -30,7 +30,7 @@ public partial struct BeehiveSystem : ISystem
         beeSquadQuery = state.GetEntityQuery(typeof(BeeSquad), ComponentType.ChunkComponent<HiveChunkStats>(),
             typeof(SquadHiveID));
 
-        NumberFlowerSpecies = Enum.GetNames(typeof(FlowerSpecies)).Length;
+        numberFlowerSpecies = Enum.GetNames(typeof(FlowerSpecies)).Length;
     }
 
     public void OnDestroy(ref SystemState state)
@@ -87,13 +87,13 @@ public partial struct BeehiveSystem : ISystem
             Beehive currentBeehive = beehive.ValueRO;
             currentBeehive.Population = populationByHIveID[currentBeehive.Id];
             float totalFood = 0;
-            for (int i = 0; i < NumberFlowerSpecies; i++)
+            for (int i = 0; i < numberFlowerSpecies; i++)
             {
                 totalFood += currentBeehive[i];
             }
 
             float foodEatenPerTick = currentBeehive.FoodExpenditureTick * currentBeehive.Population;
-            for (int i = 0; i < NumberFlowerSpecies; i++)
+            for (int i = 0; i < numberFlowerSpecies; i++)
             {
                 float currentSpeciesEaten = foodEatenPerTick * (currentBeehive[i] / totalFood);
                 currentSpeciesEaten = math.clamp(currentSpeciesEaten, 0, currentBeehive[i]);

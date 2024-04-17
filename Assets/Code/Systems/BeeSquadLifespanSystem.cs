@@ -21,7 +21,7 @@ public partial struct BeeSquadLifespanSystem : ISystem
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
-        int ticksToLive = 72;
+        int ticksToLive = config.TicksInDay + config.TicksInNight;
         state.Dependency = new ManageForagersLifespanJob()
         {
             TicksToLive = ticksToLive,
@@ -34,7 +34,6 @@ public partial struct BeeSquadLifespanSystem : ISystem
             TicksToPromotion = ticksToLive / 2,
             ECB = ECB.AsParallelWriter()
         }.ScheduleParallel(state.Dependency);
-
     }
 }
 

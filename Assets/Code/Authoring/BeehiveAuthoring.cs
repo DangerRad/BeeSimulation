@@ -32,8 +32,6 @@ public class BeehiveAuthoring : MonoBehaviour
             var entity = GetEntity(authoring, TransformUsageFlags.Dynamic);
             AddComponent(entity, new Beehive
             {
-                Ventilation = 0f,
-                TotalFood = 15000.0f,
                 BirthRateData = blobReference,
             });
         }
