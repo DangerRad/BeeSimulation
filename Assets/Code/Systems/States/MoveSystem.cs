@@ -31,21 +31,28 @@ public partial struct MoveJob : IJobEntity
     public float dt;
     public EntityCommandBuffer ECB;
 
-    public void Execute(ref Target target, in BeeColonyStats beeColony, ref LocalTransform transform, Entity entity)
+    public void Execute(in Target target, in BeeColonyStats beeColony, ref LocalTransform transform, Entity entity)
     {
-        float DISTANCE_TOLERANCE = 0.15f;
-        float3 direction = math.normalize(target.Position - transform.Position);
-        float3 newPosition = direction * beeColony.Speed * dt + transform.Position;
+        float3 moveDirection = target.Position - transform.Position;
+        float3 moveVector = math.normalize(moveDirection) * (beeColony.Speed * dt);
+        float3 newPosition;
+
+        if (math.lengthsq(moveDirection) <= math.lengthsq(moveVector))
+        {
+            newPosition = target.Position;
+            ECB.SetComponentEnabled<Moving>(entity, false);
+        }
+        else
+        {
+            newPosition = moveVector + transform.Position;
+        }
+
         LocalTransform updatedTransform = new LocalTransform
         {
             Position = newPosition,
             Scale = transform.Scale,
             Rotation = transform.Rotation
         };
-        ECB.SetComponent(entity, updatedTransform);
-        if (math.distancesq(newPosition, target.Position) < DISTANCE_TOLERANCE)
-        {
-            ECB.SetComponentEnabled<Moving>(entity, false);
-        }
+        transform = updatedTransform;
     }
 }

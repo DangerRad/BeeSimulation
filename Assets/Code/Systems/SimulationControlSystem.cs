@@ -47,8 +47,7 @@ public partial struct SimulationControlSystem : ISystem
         DayNightTickPassed?.Invoke(currentDayNightTick);
         config.ValueRW.currentSeason = currentSeason;
         config.ValueRW.SpawnWinterBees = SpawnWinterBees(ticksInSeason, currentYearTick);
-        Debug.Log(config.ValueRO.SpawnWinterBees);
-
+        config.ValueRW.currentDayPhase = currentDayPhase;
     }
 
     static bool SpawnWinterBees(int ticksInSeason, int currentYearTick)
