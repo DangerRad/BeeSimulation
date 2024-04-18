@@ -31,7 +31,7 @@ public partial struct ForageJob : IJobEntity
 
     public void Execute(ref BeeSquad beeSquad, ref Timer timer, Entity entity)
     {
-        timer.TimeLeft = 2f;
+        timer.TimeLeft = SimulationData.TIME_SPENT_COLLECTING;
         ECB.RemoveComponent<Foraging>(entity);
         ECB.AddComponent<Collecting>(entity);
     }
