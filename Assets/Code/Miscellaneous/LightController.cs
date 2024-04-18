@@ -29,7 +29,6 @@ public class LightController : MonoBehaviour
         SimulationControlSystem.DayNightTickPassed += ChangeLightValue;
     }
 
-
     void OnDisable()
     {
         SimulationControlSystem.DayNightTickPassed -= ChangeLightValue;
@@ -51,8 +50,6 @@ public class LightController : MonoBehaviour
         float intensity = Mathf.Lerp(currentDayPhase.Intensity, nextDayPhase.Intensity, t);
         _light.colorTemperature = temperature;
         _light.intensity = intensity;
-
-
     }
 }
 

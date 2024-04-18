@@ -9,6 +9,7 @@ public partial struct BeeSquadLifespanSystem : ISystem
     {
         state.RequireForUpdate<BeeSquad>();
         state.RequireForUpdate<Config>();
+        // beeQuery = state.GetEntityQuery(typeof(BeeColonyStats));
     }
 
     public void OnUpdate(ref SystemState state)
@@ -17,21 +18,19 @@ public partial struct BeeSquadLifespanSystem : ISystem
         if (!config.MakeSimulationStep())
             return;
 
-        float ticksInDay = config.TicksInDay / 364.0f;
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
         int ticksToLive = config.TicksInDay + config.TicksInNight;
+
         state.Dependency = new ManageForagersLifespanJob()
         {
-            TicksToLive = ticksToLive,
             ECB = ECB.AsParallelWriter(),
         }.ScheduleParallel(state.Dependency);
         state.Dependency.Complete();
 
         state.Dependency = new BeeSquadPromotionJob()
         {
-            TicksToPromotion = ticksToLive / 2,
+            TicksToPromotion = ticksToLive,
             ECB = ECB.AsParallelWriter()
         }.ScheduleParallel(state.Dependency);
     }
@@ -47,8 +46,8 @@ public partial struct BeeSquadPromotionJob : IJobEntity
 
     public void Execute([ChunkIndexInQuery] int chunkIndex, ref BeeSquad beeSquad, in Entity entity)
     {
-        beeSquad.AgeInTicks += 1;
-        if (beeSquad.AgeInTicks > TicksToPromotion)
+        beeSquad.TicksToLive -= 1;
+        if (beeSquad.TicksToLive <= TicksToPromotion)
         {
             ECB.AddComponent<Forager>(chunkIndex, entity);
         }
@@ -59,13 +58,12 @@ public partial struct BeeSquadPromotionJob : IJobEntity
 [WithAll(typeof(Forager))]
 public partial struct ManageForagersLifespanJob : IJobEntity
 {
-    public int TicksToLive;
     public EntityCommandBuffer.ParallelWriter ECB;
 
     public void Execute([ChunkIndexInQuery] int chunkIndex, ref BeeSquad beeSquad, in Entity entity)
     {
-        beeSquad.AgeInTicks += 1;
-        if (beeSquad.AgeInTicks > TicksToLive)
+        beeSquad.TicksToLive -= 1;
+        if (beeSquad.TicksToLive <= 0)
         {
             ECB.DestroyEntity(chunkIndex, entity);
         }

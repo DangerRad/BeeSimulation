@@ -22,6 +22,6 @@ public class beeSquadAuthoring : MonoBehaviour
 public struct BeeSquad : IComponentData
 {
     public int Size;
-    public int AgeInTicks;
+    public int TicksToLive;
     public float FoodHeld;
 }

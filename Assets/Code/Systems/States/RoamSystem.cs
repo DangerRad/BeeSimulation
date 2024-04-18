@@ -28,14 +28,14 @@ public partial struct RoamSystem : ISystem
 
 [BurstCompile]
 [WithDisabled(typeof(Moving))]
-[WithAll(typeof(Roaming))]
+[WithAll(typeof(Roaming), typeof(Forager))]
 public partial struct RoamJob : IJobEntity
 {
     public Random Rng;
     public double Time;
     public EntityCommandBuffer ECB;
 
-    public void Execute(ref Target target, in BeeColonyStats beeColony, ref LocalTransform transform, Entity entity)
+    public void Execute(ref Target target, in BeeColonyStats beeColony, Entity entity)
     {
         uint randomSeed = 1 + (uint)(Time * (beeColony.BeehiveEntity.Index + 1) * 1231231) % 213992;
         Rng = new Random(randomSeed);

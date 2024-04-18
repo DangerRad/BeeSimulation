@@ -15,16 +15,18 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
         state.RequireForUpdate<Config>();
     }
 
+    [BurstCompile]
     public void OnUpdate(ref SystemState state)
     {
         var config = SystemAPI.GetSingleton<Config>();
-        if (!config.MakeSimulationStep())
+        if (!config.MakeSimulationStep() || config.currentSeason == Season.Winter)
             return;
 
-        float ticksInDayNight = config.TicksInDay + config.TicksInNight;
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ecb = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
         int currentTick = config.CurrentTick;
+        bool spawnWinterBees = config.SpawnWinterBees;
+        int ticksToLive = config.TicksInDay + config.TicksInNight;
 
         if (beeSquadEntityTemplate == Entity.Null)
         {
@@ -44,16 +46,22 @@ public partial struct BeehiveSpawnSqudSystem : ISystem
             float dailyScalar = beehive.ValueRO.BirthRateAtPoint(currentTick);
             int totalBeesToSpawn = (int)(1.0f * beesPerTick * rng.NextFloat(0.9f, 1.1f) * dailyScalar);
             var squadColor = new URPMaterialPropertyBaseColor { Value = color.ValueRO.Value };
-
             while (totalBeesToSpawn > 0)
             {
                 int beeSquadSize = ((totalBeesToSpawn - 1) % SimulationData.MAX_SQUAD_SIZE) + 1;
                 totalBeesToSpawn -= beeSquadSize;
-
                 var beeSquadEntity = ecb.Instantiate(beeSquadEntityTemplate);
+
+                if (spawnWinterBees)
+                {
+                    ecb.AddComponent(beeSquadEntity, new WinterBee());
+                    ticksToLive = config.TicksInYear / 4 + SimulationData.TICKS_BEFORE_WINTER_TO_SPAWN_WINTER_BEES;
+                }
+
                 BeeSquad beeSquad = new BeeSquad
                 {
                     Size = beeSquadSize,
+                    TicksToLive = ticksToLive
                 };
                 ecb.SetComponent(beeSquadEntity, beeSquad);
                 ecb.AddSharedComponent(beeSquadEntity,

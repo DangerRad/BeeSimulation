@@ -45,6 +45,7 @@ public struct Config : IComponentData
     public Season currentSeason;
     public DayPhase currentDayPhase;
     public Entity BeePrefab;
+    public bool SpawnWinterBees;
     public bool MakeSimulationStep() => TimeToNextStep <= 0 ? true : false;
 }
 
