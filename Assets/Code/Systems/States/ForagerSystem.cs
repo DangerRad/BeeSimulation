@@ -4,7 +4,7 @@ using Unity.Jobs;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
-
+[UpdateBefore(typeof(MoveSystem))]
 public partial struct ForagerSystem : ISystem
 {
     public void OnCreate(ref SystemState state)

@@ -4,7 +4,8 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-[UpdateAfterAttribute(typeof(BeeSquadLifespanSystem))]
+[UpdateAfter(typeof(MoveSystem))]
+[UpdateBefore(typeof(BeeSquadLifespanSystem))]
 public partial struct HideSystem : ISystem
 {
     public void OnCreate(ref SystemState state)
@@ -26,7 +27,6 @@ public partial struct HideSystem : ISystem
             }.Schedule(state.Dependency);
         }
 
-        state.Dependency.Complete();
         if (config.currentDayPhase == DayPhase.Morning && config.currentSeason != Season.Winter)
         {
             state.Dependency = new StopHidingJob()

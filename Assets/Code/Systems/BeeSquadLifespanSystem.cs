@@ -2,14 +2,12 @@
 using Unity.Collections;
 using Unity.Entities;
 
-
 public partial struct BeeSquadLifespanSystem : ISystem
 {
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<BeeSquad>();
         state.RequireForUpdate<Config>();
-        // beeQuery = state.GetEntityQuery(typeof(BeeColonyStats));
     }
 
     public void OnUpdate(ref SystemState state)

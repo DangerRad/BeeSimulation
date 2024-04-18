@@ -5,7 +5,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-
+[UpdateBefore(typeof(MoveSystem))]
 public partial struct SearchSystem : ISystem
 {
     [ReadOnly] ComponentLookup<LocalTransform> transformsLookUp;

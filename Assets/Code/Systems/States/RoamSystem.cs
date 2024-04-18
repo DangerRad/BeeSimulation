@@ -6,7 +6,7 @@ using Unity.Transforms;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
-
+[UpdateBefore(typeof(MoveSystem))]
 public partial struct RoamSystem : ISystem
 {
     public void OnCreate(ref SystemState state)

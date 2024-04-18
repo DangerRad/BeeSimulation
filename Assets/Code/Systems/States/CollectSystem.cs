@@ -6,7 +6,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-
+[UpdateBefore(typeof(MoveSystem))]
 public partial struct CollectSystem : ISystem
 {
     [ReadOnly] ComponentLookup<Flower> flowerLookUp;
@@ -32,7 +32,6 @@ public partial struct CollectSystem : ISystem
             dt = SystemAPI.Time.DeltaTime,
             ECB = ECB,
         }.Schedule(state.Dependency);
-        state.Dependency.Complete();
     }
 }
 

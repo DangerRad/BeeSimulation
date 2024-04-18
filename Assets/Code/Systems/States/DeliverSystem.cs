@@ -4,7 +4,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using UnityEngine;
 
-[UpdateBefore(typeof(BeeSquadLifespanSystem))]
+[UpdateBefore(typeof(MoveSystem))]
 public partial struct DeliverSystem : ISystem
 {
     public void OnCreate(ref SystemState state)

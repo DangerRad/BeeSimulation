@@ -4,7 +4,7 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
-
+[UpdateBefore(typeof(BeeSquadLifespanSystem))]
 public partial struct MoveSystem : ISystem
 {
     public void OnCreate(ref SystemState state)
