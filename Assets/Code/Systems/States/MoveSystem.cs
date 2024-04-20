@@ -47,11 +47,13 @@ public partial struct MoveJob : IJobEntity
             newPosition = moveVector + transform.Position;
         }
 
+        float3 t = math.normalize(math.cross(new float3(0, 1, 0), moveDirection));
+        quaternion newRotation = math.quaternion(math.float3x3(t, math.cross(moveDirection, t), moveDirection));
         LocalTransform updatedTransform = new LocalTransform
         {
             Position = newPosition,
             Scale = transform.Scale,
-            Rotation = transform.Rotation
+            Rotation = newRotation
         };
         transform = updatedTransform;
     }

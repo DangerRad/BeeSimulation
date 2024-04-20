@@ -13,6 +13,10 @@ unsafe public struct Beehive : IComponentData
     public float FoodExpenditureTick;
     public fixed float FoodStoredByType[3];
 
+    public float WeatherSeverity;
+    public float FoodScarcity;
+    public float DangerLevel;
+
     public readonly float BirthRateAtPoint(int currentTick) =>
         BirthRateData.Value.Ticks[currentTick % BirthRateData.Value.Ticks.Length];
 
