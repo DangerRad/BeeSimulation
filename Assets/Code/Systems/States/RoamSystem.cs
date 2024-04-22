@@ -37,7 +37,7 @@ public partial struct RoamJob : IJobEntity
 
     public void Execute(ref Target target, in BeeColonyStats beeColony, Entity entity)
     {
-        uint randomSeed = 1 + (uint)(Time * (beeColony.BeehiveEntity.Index + 1) * 1231231) % 213992;
+        uint randomSeed = 1 + (uint)(Time * (beeColony.BeehiveEntity.Index + 1) * 4986455);
         Rng = new Random(randomSeed);
         if (Rng.NextInt(15) == 1)
         {

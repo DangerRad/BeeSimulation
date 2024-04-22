@@ -42,6 +42,16 @@ public partial struct BeehiveSpawnSystem : ISystem
                 spawnerTransform.Position, 1));
             state.EntityManager.SetComponentData(beehiveEntity,
                 new URPMaterialPropertyBaseColor { Value = beeHiveColor });
+            state.EntityManager.SetComponentData(beehiveEntity, new Mites
+            {
+                TreatmentMultiplier = 0,
+                InfestationAmount = 0,
+                Resistance = SimulationData.MITES_RESISTANCE,
+            });
+            state.EntityManager.SetComponentData(beehiveEntity, new RandomData
+            {
+                Value = new Random((uint)(1 + (i + 1) * beehiveEntity.Index * 56342124))
+            });
         }
     }
 }

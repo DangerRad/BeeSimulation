@@ -14,11 +14,11 @@
 <details>
   <summary>add new systems making simulation more complex</summary>
   
-- [ ] add food consumption
+- [x] add food consumption
 - [ ] shade that influences start of foraging
 - [ ] add mites
 - [ ] add diseases
-- [ ] bee dying probability on curve 
+- [x] bee dying probability on curve 
 - [ ] beehive size dependent on food stored 
 - [ ] Queen life cycle
 - [ ] random genes based on species 

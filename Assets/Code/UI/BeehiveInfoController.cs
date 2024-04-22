@@ -9,7 +9,7 @@ using UnityEngine.Pool;
 public class BeehiveInfoController : MonoBehaviour
 {
     [SerializeField] BeehiveInfoDisplay _display;
-    public static Action<int, float, float[],int> BeehiveInfoChanged;
+    public static Action<int, float, float[], int, float> BeehiveInfoChanged;
     public static Action<float3> DisplayPositionChanged;
 
     void OnEnable()
@@ -29,8 +29,8 @@ public class BeehiveInfoController : MonoBehaviour
         _display.UpdatePosition(position);
     }
 
-    void UpdateDisplay(int population, float foodLeft, float[] foodByType, int squadCount)
+    void UpdateDisplay(int population, float foodLeft, float[] foodByType, int squadCount, float mitesInfestation)
     {
-        _display.UpdateInfo(population, foodLeft, foodByType, squadCount);
+        _display.UpdateInfo(population, foodLeft, foodByType, squadCount, mitesInfestation);
     }
 }

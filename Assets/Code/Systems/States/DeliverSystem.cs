@@ -32,7 +32,7 @@ public partial struct DeliverToHiveJob : IJobEntity
 {
     public EntityCommandBuffer ECB;
 
-    public void Execute(ref BeeSquad beeSquad, BeeColonyStats stats, Entity entity)
+    public void Execute(ref BeeSquad beeSquad, Entity entity)
     {
         beeSquad.FoodHeld = 0;
         ECB.RemoveComponent<Delivering>(entity);

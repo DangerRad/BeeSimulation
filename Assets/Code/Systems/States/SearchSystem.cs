@@ -58,8 +58,7 @@ public partial struct SearchJob : IJobEntity
         }
         else
         {
-            uint randomSeed = 1 + (uint)(Time * (beeColonyStats.BeehiveEntity.Index + 1 + entity.Index) * 9787652231) %
-                2021399;
+            uint randomSeed = 1 + (uint)(Time * (beeColonyStats.BeehiveEntity.Index + 1 + entity.Index) * 9787652231);
             Rng = new Random(randomSeed);
             Entity randomizedEntity = FlowerEntities[Rng.NextInt(0, FlowerEntities.Length)];
             target.Position = TransformLookUp[randomizedEntity].Position + new float3(0, 0.15f, 0);

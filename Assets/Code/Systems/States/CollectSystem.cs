@@ -53,7 +53,6 @@ public partial struct CollectJob : IJobEntity
         if (timer.TimeLeft < 0)
         {
             ECB.AddComponent<Searching>(entity);
-            ECB.SetComponentEnabled<Moving>(entity, true);
             ECB.RemoveComponent<Collecting>(entity);
         }
         else
@@ -76,7 +75,6 @@ public partial struct CollectJob : IJobEntity
             if (flower.NectarHeld <= 0)
             {
                 ECB.AddComponent<Searching>(entity);
-                ECB.SetComponentEnabled<Moving>(entity, true);
                 ECB.RemoveComponent<Collecting>(entity);
                 ECB.SetComponentEnabled<Flower>(target.Entity, false);
             }

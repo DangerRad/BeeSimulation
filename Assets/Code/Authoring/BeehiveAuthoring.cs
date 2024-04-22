@@ -2,7 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.Collections;
 using Unity.Entities;
+using Unity.Mathematics;
 using UnityEngine;
+using Random = Unity.Mathematics.Random;
 
 public class BeehiveAuthoring : MonoBehaviour
 {
@@ -34,6 +36,8 @@ public class BeehiveAuthoring : MonoBehaviour
             {
                 BirthRateData = blobReference,
             });
+            AddComponent(entity, new Mites());
+            AddComponent(entity, new RandomData());
         }
 
         float RasterizeCurve(int currentPoint, int totalPoints, AnimationCurve curve)

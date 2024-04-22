@@ -6,12 +6,14 @@ using Unity.Mathematics;
 public partial struct BeeSquadLifespanSystem : ISystem
 {
     ComponentLookup<Beehive> beehiveLookUp;
+    ComponentLookup<Mites> mitesLookUp;
 
     public void OnCreate(ref SystemState state)
     {
         state.RequireForUpdate<BeeSquad>();
         state.RequireForUpdate<Config>();
         beehiveLookUp = state.GetComponentLookup<Beehive>();
+        mitesLookUp = state.GetComponentLookup<Mites>();
     }
 
     public void OnUpdate(ref SystemState state)
@@ -21,6 +23,7 @@ public partial struct BeeSquadLifespanSystem : ISystem
             return;
 
         beehiveLookUp.Update(ref state);
+        mitesLookUp.Update(ref state);
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
         int ticksToLive = config.TicksInDay + config.TicksInNight;
@@ -28,7 +31,8 @@ public partial struct BeeSquadLifespanSystem : ISystem
         state.Dependency = new ManageForagersLifespanJob()
         {
             ECB = ECB.AsParallelWriter(),
-            BeehiveLookUp = beehiveLookUp
+            BeehiveLookUp = beehiveLookUp,
+            MitesLookUp = mitesLookUp
         }.ScheduleParallel(state.Dependency);
         state.Dependency.Complete();
 
@@ -65,14 +69,19 @@ public partial struct ManageForagersLifespanJob : IJobEntity
 {
     public EntityCommandBuffer.ParallelWriter ECB;
     [ReadOnly] public ComponentLookup<Beehive> BeehiveLookUp;
+    [ReadOnly] public ComponentLookup<Mites> MitesLookUp;
 
     public void Execute([ChunkIndexInQuery] int chunkIndex, ref BeeSquad beeSquad, in Entity entity,
         in BeeColonyStats stats)
     {
         Beehive beehive = BeehiveLookUp[stats.BeehiveEntity];
-        var rng = new Random((uint)(1 + (entity.Index + beeSquad.Size) * 21342252 % 52331));
+        Mites mites = MitesLookUp[stats.BeehiveEntity];
+
+        var rng = new Random((uint)(1 + (entity.Index + beeSquad.Size) * 213422552));
+
         beeSquad.Size -= BeesToKill(beeSquad.TicksToLive, beeSquad.Size, beehive.WeatherSeverity,
-            rng.NextFloat(-1, 1), beehive.DangerLevel, beehive.FoodScarcity);
+            rng.NextFloat(-1, 1), beehive.DangerLevel, beehive.FoodScarcity, mites.InfestationAmount);
+
         beeSquad.TicksToLive -= 1;
         if (beeSquad.TicksToLive <= 0 || beeSquad.Size <= 0)
         {
@@ -80,11 +89,11 @@ public partial struct ManageForagersLifespanJob : IJobEntity
         }
     }
 
-    public static int BeesToKill(
-        int ticksToLive, int squadSize, float weather, float luck, float danger, float foodScarcity)
+    public static int BeesToKill(int ticksToLive, int squadSize, float weather,
+        float luck, float danger, float foodScarcity, float mitesInfestationAmount)
     {
         float defaultDeathRate = 1.0f / (ticksToLive + 1);
-        float totalDeathRate = defaultDeathRate * (1 + weather + luck + danger + foodScarcity);
+        float totalDeathRate = defaultDeathRate * (1 + weather + luck + danger + foodScarcity + mitesInfestationAmount);
         totalDeathRate = math.clamp(totalDeathRate, 0f, 1f);
         int totalBeesToKill = (int)(totalDeathRate * squadSize);
         return totalBeesToKill;

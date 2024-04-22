@@ -16,7 +16,7 @@ public class BeehiveInfoDisplay : MonoBehaviour
         _infos = GetComponentsInChildren<TMP_Text>();
     }
 
-    public void UpdateInfo(int size, float foodLeft, float[] foodByType, int squadCount)
+    public void UpdateInfo(int size, float foodLeft, float[] foodByType, int squadCount, float mitesInfestation)
     {
         _infos[0].text = "size: " + size.ToString() + " in " + squadCount + " squads";
         // _infos[1].text = "food: " + foodLeft.ToString("0.0");
@@ -25,6 +25,7 @@ public class BeehiveInfoDisplay : MonoBehaviour
         _infos[2].text = FlowerSpecies.Lavender.ToString() + ": " + foodByType[1].ToString("0.0");
         _infos[3].text = FlowerSpecies.Goldenrod.ToString() + ": " + foodByType[2].ToString("0.0");
         _infos[4].text = "Total food: " + foodLeft.ToString("0.0");
+        _infos[5].text = "Mites: " + mitesInfestation.ToString("0.000");
     }
 
     public void UpdatePosition(float3 newPosition)
