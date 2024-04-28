@@ -1,5 +1,4 @@
-﻿using Tayx.Graphy.Utils.NumString;
-using UnityEngine;
+﻿using UnityEngine;
 
 public static class SimpleRandom
 {
@@ -12,6 +11,6 @@ public static class SimpleRandom
 
     public static int Normal(int min, int max)
     {
-        return Mathf.RoundToInt(Normal(min.ToFloat(), max.ToFloat()));
+        return Mathf.RoundToInt(Normal((float)min, (float)max));
     }
 }

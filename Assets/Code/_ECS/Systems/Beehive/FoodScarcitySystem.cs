@@ -3,7 +3,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 
-
+[UpdateBefore(typeof(BeeSquadLifeSystem))]
 public partial struct FoodScarcitySystem : ISystem
 {
     public void OnCreate(ref SystemState state)

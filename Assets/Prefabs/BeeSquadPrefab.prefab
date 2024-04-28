@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7609504614733945913}
   - component: {fileID: 1636493856883742947}
   m_Layer: 0
-  m_Name: BeeSquad Prefab
+  m_Name: BeeSquadPrefab
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

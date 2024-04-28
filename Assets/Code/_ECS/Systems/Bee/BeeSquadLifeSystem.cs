@@ -13,6 +13,8 @@ public partial struct BeeSquadLifeSystem : ISystem
     {
         state.RequireForUpdate<BeeSquad>();
         state.RequireForUpdate<Simulation>();
+        state.RequireForUpdate<Beehive>();
+        state.RequireForUpdate<FoodScarcity>();
         beehiveLookUp = state.GetComponentLookup<Beehive>();
         mitesLookUp = state.GetComponentLookup<Mites>();
         foodScarcityLookup = state.GetComponentLookup<FoodScarcity>();
@@ -27,6 +29,7 @@ public partial struct BeeSquadLifeSystem : ISystem
         beehiveLookUp.Update(ref state);
         mitesLookUp.Update(ref state);
         foodScarcityLookup.Update(ref state);
+
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
         int ticksToLive = simulation.TicksInDay + simulation.TicksInNight;
@@ -35,7 +38,8 @@ public partial struct BeeSquadLifeSystem : ISystem
         {
             ECB = ECB.AsParallelWriter(),
             BeehiveLookUp = beehiveLookUp,
-            MitesLookUp = mitesLookUp
+            MitesLookUp = mitesLookUp,
+            FoodScarcityLookup = foodScarcityLookup
         }.ScheduleParallel(state.Dependency);
         state.Dependency.Complete();
 
