@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,6 +13,7 @@ public class CameraMovement : MonoBehaviour
     {
         Move();
     }
+
     void Move()
     {
         float currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? _sprintSpeed : _moveSpeed;
@@ -30,5 +32,4 @@ public class CameraMovement : MonoBehaviour
         rotation.y += rotationInput * _rotationSpeed;
         transform.eulerAngles = rotation;
     }
-
 }

@@ -1,6 +1,5 @@
-﻿using Unity.Collections;
+﻿//temporary class to hold constant values in one place
 
-//temporary class to hold constant values in one place
 public static class SimulationData
 {
     //Flowers
@@ -24,4 +23,15 @@ public static class SimulationData
     //MITES
     public const float MITES_MULTIPLICATION_RATE = 0.0002f;
     public const float MITES_RANDOM_NEW = 0.01f;
+
+    //Queen
+    public const float FERTILITY_THRESHOLD_FOR_NEW_QUEEN = 0.5f;
+    public const int TICKS_TO_LIVE_LEFT_TO_SPAWN_NEW_QUEEN = 30;
+    public const int MAX_QUEEN_LARVAE_IN_HIVE = 4;
+    public const int LARVA_LIFESPAN = 20;
+
+    //FoodScarcity
+    public const float MAX_FOOD_SCARCITY_VALUE = 2;
+    public const float AVERAGE_FOOD_PREDICTION_VALUE = TICKS_IN_DAY_NIGHT * SimulationData.FOOD_EATEN_TICK;
+    // public const float MAX_FOOD_SCARCITY_VALUE = 2;
 }

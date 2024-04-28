@@ -189,12 +189,222 @@ PrefabInstance:
     - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
         type: 3}
       propertyPath: TickLength
-      value: 0.01
+      value: 0.05
       objectReference: {fileID: 0}
     - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
         type: 3}
       propertyPath: TicksInYear
       value: 288
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_PreInfinity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_PostInfinity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[0].time
+      value: -0.0046979487
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].time
+      value: 0.15501606
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].time
+      value: 0.33949792
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].time
+      value: 0.57934004
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].time
+      value: 0.82454026
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[5].time
+      value: 1.0020328
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[0].value
+      value: 0.29026952
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].value
+      value: 0.74904406
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].value
+      value: 0.5383096
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].value
+      value: 0.7661116
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].value
+      value: 0.21774504
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[5].value
+      value: 0.29091722
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[0].inSlope
+      value: 2.8724751
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].inSlope
+      value: 0.86508524
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].inSlope
+      value: -0.09625235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].inSlope
+      value: -0.6433016
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].inSlope
+      value: -0.9120741
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[5].inSlope
+      value: 1.1441709
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[0].outSlope
+      value: 2.8724751
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].outSlope
+      value: 0.86508524
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].outSlope
+      value: -0.09625235
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].outSlope
+      value: -0.6433016
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].inWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].outSlope
+      value: -0.9120741
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[5].inWeight
+      value: 0.47208133
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[5].outSlope
+      value: 1.1441709
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[0].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].outWeight
+      value: 0.33333334
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[0].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[1].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[2].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[3].tangentMode
+      value: 34
+      objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 4e885ac963d52f8459aa26df66509f4e,
+        type: 3}
+      propertyPath: birthRateOverYearCurve.m_Curve.Array.data[4].tangentMode
+      value: 34
       objectReference: {fileID: 0}
     - target: {fileID: 2480797512116040116, guid: 4e885ac963d52f8459aa26df66509f4e,
         type: 3}
