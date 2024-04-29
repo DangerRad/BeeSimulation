@@ -7,29 +7,55 @@ using UnityEngine;
 
 public class BeehiveInfoDisplay : MonoBehaviour
 {
-    TMP_Text[] _infos;
+    const int NUMBER_OF_PANELs = 3;
+    public static event Action<int> PanelNumberChanged;
+    int _currentPanel;
     [SerializeField] Vector3 _offset;
-
+    [SerializeField] TMP_Text _textField;
+    Transform _mainCameraTransform;
     // Start is called before the first frame update
-    void Awake()
+
+    void Start()
     {
-        _infos = GetComponentsInChildren<TMP_Text>();
+        _mainCameraTransform = Camera.main.transform;
     }
 
-    public void UpdateInfo(int size, float foodLeft, float[] foodByType, int squadCount, float mitesInfestation)
+    void Update()
     {
-        _infos[0].text = "size: " + size.ToString() + " in " + squadCount + " squads";
-        // _infos[1].text = "food: " + foodLeft.ToString("0.0");
-        //todo choose top x of food type to display in percentage of total food stored
-        _infos[1].text = FlowerSpecies.Daisy.ToString() + ": " + foodByType[0].ToString("0.0");
-        _infos[2].text = FlowerSpecies.Lavender.ToString() + ": " + foodByType[1].ToString("0.0");
-        _infos[3].text = FlowerSpecies.Goldenrod.ToString() + ": " + foodByType[2].ToString("0.0");
-        _infos[4].text = "Total food: " + foodLeft.ToString("0.0");
-        _infos[5].text = "Mites: " + mitesInfestation.ToString("0.000");
+        transform.LookAt(_mainCameraTransform.position);
+    }
+
+    public void UpdateText(string newText)
+    {
+        _textField.text = newText;
     }
 
     public void UpdatePosition(float3 newPosition)
     {
         transform.position = (Vector3)newPosition + _offset;
+    }
+
+    public void OnDisplayPanelChangeLeft()
+    {
+        _currentPanel = (_currentPanel - 1 + NUMBER_OF_PANELs) % NUMBER_OF_PANELs;
+        PanelNumberChanged?.Invoke(_currentPanel);
+    }
+
+    public void OnDisplayPanelChangeRight()
+    {
+        _currentPanel = (_currentPanel + 1) % NUMBER_OF_PANELs;
+        PanelNumberChanged?.Invoke(_currentPanel);
+    }
+
+    void OnEnable()
+    {
+        ReportingSystem.PanelPositionUpdated += UpdatePosition;
+        ReportingSystem.PanelTextUpdated += UpdateText;
+    }
+
+    void OnDisable()
+    {
+        ReportingSystem.PanelPositionUpdated -= UpdatePosition;
+        ReportingSystem.PanelTextUpdated -= UpdateText;
     }
 }
