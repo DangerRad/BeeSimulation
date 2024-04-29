@@ -16,6 +16,8 @@ public partial struct QueenLarvaSystem : ISystem
         _larvaLookUp = state.GetComponentLookup<LarvaQueen>();
         _queenLookUp = state.GetComponentLookup<Queen>();
         _hiveLarvaLookUp = state.GetComponentLookup<HiveLarvaQueenData>();
+        state.RequireForUpdate<LarvaQueen>();
+
     }
 
     [BurstCompile]
@@ -27,8 +29,8 @@ public partial struct QueenLarvaSystem : ISystem
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
 
-        _queenLookUp.Update(ref state);
-        _larvaLookUp.Update(ref state);
+        // _queenLookUp.Update(ref state);
+        // _larvaLookUp.Update(ref state);
         _hiveLarvaLookUp.Update(ref state);
 
         state.Dependency = new QueenPromotion()
