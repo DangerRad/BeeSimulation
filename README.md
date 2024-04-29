@@ -9,6 +9,7 @@
 
 #### Current progress Slow simulation (intended) [Video](https://drive.google.com/file/d/1-FVoWj1hFmqo6VeFbdxkRGfWAuSVkKQQ/view?usp=drive_link)
 
+![simulation](https://github.com/DangerRad/BeeSimulation/assets/21123909/5564c069-a676-4ea0-aa4f-8a7c5801b366)
 
 ### Big milestones 
 - [x] create skeleton of simulation
