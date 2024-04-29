@@ -17,19 +17,43 @@ public class CameraMovement : MonoBehaviour
     void Move()
     {
         float currentMoveSpeed = Input.GetKey(KeyCode.LeftShift) ? _sprintSpeed : _moveSpeed;
-
         float verticalInput = Input.GetKey(KeyCode.Space) ? 1 : 0;
-        verticalInput = Input.GetKey(KeyCode.LeftShift) ? -1 : verticalInput;
+        transform.position += newInput().normalized * (currentMoveSpeed * Time.deltaTime);
 
-        Vector3 input = new Vector3(Input.GetAxisRaw("Horizontal"), verticalInput, Input.GetAxisRaw("Vertical"));
-        transform.position += input.normalized * (currentMoveSpeed * Time.deltaTime);
-        // transform.position += transform.forward.normalized * currentMoveSpeed * Time.deltaTime * Input.GetAxisRaw("Vertical");
+        if (Input.GetKey(KeyCode.Mouse2))
+            HandleMouseInput();
+    }
 
-        float rotationInput = Input.GetKey(KeyCode.Q) ? -1 : 0;
-        rotationInput = Input.GetKey(KeyCode.E) ? 1 : rotationInput;
+    Vector3 newInput()
+    {
+        Vector3 input = Vector3.zero;
+        if (Input.GetKey(KeyCode.A))
+            input -= transform.right;
+        if (Input.GetKey(KeyCode.D))
+            input += transform.right;
+        if (Input.GetKey(KeyCode.W))
+            input += transform.forward;
+        if (Input.GetKey(KeyCode.S))
+            input -= transform.forward;
+        if (Input.GetKey(KeyCode.Space))
+            input += Vector3.up;
+        if (Input.GetKey(KeyCode.LeftControl))
+            input += Vector3.down;
+        return input;
+    }
 
-        Vector3 rotation = transform.eulerAngles;
-        rotation.y += rotationInput * _rotationSpeed;
-        transform.eulerAngles = rotation;
+    void HandleMouseInput()
+    {
+        transform.rotation *= Quaternion.AngleAxis(
+            -Input.GetAxis("Mouse Y") * _rotationSpeed,
+            Vector3.right
+        );
+
+        Vector3 eulerAngles = transform.eulerAngles;
+        transform.rotation = Quaternion.Euler(
+            eulerAngles.x,
+            eulerAngles.y + Input.GetAxis("Mouse X") * _rotationSpeed,
+            eulerAngles.z
+        );
     }
 }
