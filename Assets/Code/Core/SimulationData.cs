@@ -31,7 +31,7 @@ public static class SimulationData
     public const int LARVA_LIFESPAN = 20;
 
     //FoodScarcity
-    public const float MAX_FOOD_SCARCITY_VALUE = 2;
+    public const float FOOD_SCARCITY_WEIGHT = 1;
     public const float AVERAGE_FOOD_PREDICTION_VALUE = TICKS_IN_DAY_NIGHT * SimulationData.FOOD_EATEN_TICK;
     // public const float MAX_FOOD_SCARCITY_VALUE = 2;
 }

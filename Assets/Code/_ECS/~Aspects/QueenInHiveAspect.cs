@@ -10,8 +10,8 @@ public readonly partial struct QueenInHiveAspect : IAspect
     public readonly RefRO<LocalToWorld> Transform;
     public readonly RefRO<URPMaterialPropertyBaseColor> material;
     public readonly RefRW<RandomData> RandomData;
+    public readonly RefRO<FoodScarcity> FoodScarcity;
     public readonly Entity Self;
-
     public BeeColonyStats BeeColonyStats => Queen.ValueRO.BeeColonyStats;
     public int HiveID => Hive.ValueRO.Id;
     public URPMaterialPropertyBaseColor HiveMaterial => material.ValueRO;
@@ -29,6 +29,7 @@ public readonly partial struct QueenInHiveAspect : IAspect
 
     public float BeesToBirth()
     {
-        return RandomData.ValueRW.Value.NextFloat(0.9f + 1.1f) * Queen.ValueRO.Fertility * Queen.ValueRO.BeesBirthTick;
+        return RandomData.ValueRW.Value.NextFloat(0.9f + 1.1f) * Queen.ValueRO.Fertility *
+               Queen.ValueRO.BeesBirthTick * FoodScarcity.ValueRO.Value;
     }
 }

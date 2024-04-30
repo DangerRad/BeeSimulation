@@ -46,6 +46,7 @@ public partial class BeehiveSpawnSystem : SystemBase
 
             Beehive beehive = EntityManager.GetComponentData<Beehive>(entity);
             beehive.Id = i;
+            beehive[0] = 20f;
 
             Queen queen = speciesToSpawn.GetRandomQueen();
             Lifespan queenLifespan = speciesToSpawn.GetRandomQueenLifespan();

@@ -39,7 +39,7 @@ public partial struct RoamJob : IJobEntity
     {
         uint randomSeed = 1 + (uint)(Time * (info.BeehiveEntity.Index + 1) * 4986455);
         Rng = new Random(randomSeed);
-        if (Rng.NextInt(15) == 1)
+        if (Rng.NextInt(5) == 1)
         {
             ECB.AddComponent<Searching>(entity);
             ECB.RemoveComponent<Roaming>(entity);

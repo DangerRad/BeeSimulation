@@ -83,7 +83,7 @@ public partial struct ManageForagersLifespanJob : IJobEntity
     {
         int ticksToLive = lifespan.TicksToLive;
         float infestation = MitesLookUp[info.BeehiveEntity].InfestationAmount;
-        float foodScarcity = FoodScarcityLookup[info.BeehiveEntity].Value;
+        float foodScarcity = (1 - FoodScarcityLookup[info.BeehiveEntity].Value) * SimulationData.FOOD_SCARCITY_WEIGHT;
         float weather = 0; //todo when implementing weather system calculate fatality penalty
         float danger = 0; //todo when implementing Dangers (like wasps) calculate fatality penalty
         var rng = new Random((uint)(1 + (entity.Index + beeSquad.Size) * 213422552));
