@@ -16,7 +16,7 @@ public static class SimulationData
     // public const float BEE_SPEED = 5;
     // public const float FOOD_GATHER_SPEED = 0.006F;
     // public const float MAX_FOOD_HELD = 0.003F;
-    public const float BEE_SCALE = 0.2f;
+    public const float BEE_SCALE = 0.07f;
     public const int TICKS_IN_DAY_NIGHT = 72;
     public const int TICKS_BEFORE_WINTER_TO_SPAWN_WINTER_BEES = 60;
 

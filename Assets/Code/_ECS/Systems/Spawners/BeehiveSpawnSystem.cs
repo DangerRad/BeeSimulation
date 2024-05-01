@@ -1,7 +1,6 @@
 ﻿using Code.Core;
 using Unity.Burst;
 using Unity.Entities;
-using Unity.Entities.Content;
 using Unity.Mathematics;
 using Unity.Rendering;
 using Unity.Transforms;
@@ -52,6 +51,7 @@ public partial class BeehiveSpawnSystem : SystemBase
             Lifespan queenLifespan = speciesToSpawn.GetRandomQueenLifespan();
             LocalTransform transform = RandomTransform.Randomize(ref rng, spawnArea, spawnOffset, 1);
             URPMaterialPropertyBaseColor baseColor = new URPMaterialPropertyBaseColor { Value = beehiveColor };
+
             RandomData random = new RandomData { Value = new Random((uint)(1 + (i + 1) * entity.Index * 11111111)) };
 
             EntityManager.AddComponentData(entity, queen);

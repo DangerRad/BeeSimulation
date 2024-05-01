@@ -204,6 +204,12 @@ PrefabInstance:
       propertyPath: Amount
       value: 50
       objectReference: {fileID: 0}
+    - target: {fileID: 1392235343594268673, guid: 88328ae32f8a3b44ba0c351e034dd69e,
+        type: 3}
+      propertyPath: BeehivePrefab
+      value: 
+      objectReference: {fileID: 7950146462125575582, guid: a0510262b1382374dac5dbfc1265c90c,
+        type: 3}
     - target: {fileID: 1717185776750190805, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -254,6 +260,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2007507673836039395, guid: 88328ae32f8a3b44ba0c351e034dd69e,
+        type: 3}
+      propertyPath: BeePrefab
+      value: 
+      objectReference: {fileID: 2271528422966368072, guid: 09fa6c76986a98a40a339e9300db68da,
+        type: 3}
     - target: {fileID: 2007507673836039395, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}
       propertyPath: TickLength

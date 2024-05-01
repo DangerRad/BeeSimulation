@@ -17,7 +17,6 @@ public partial struct MitesSystem : ISystem
         var simulation = SystemAPI.GetSingleton<Simulation>();
         if (!simulation.MakeSimulationStep())
             return;
-
         state.Dependency = new HandleMitesPopulation().Schedule(state.Dependency);
     }
 }
@@ -25,14 +24,14 @@ public partial struct MitesSystem : ISystem
 [BurstCompile]
 public partial struct HandleMitesPopulation : IJobEntity
 {
-    public void Execute(ref Mites mites, ref RandomData random)
+    public void Execute(ref Mites mites, in Queen queen, ref RandomData random)
     {
         float randomMites = random.Value.NextFloat(-1.1f, 1f) * SimulationData.MITES_MULTIPLICATION_RATE *
-                            SimulationData.MITES_RANDOM_NEW * (1 - mites.Resistance);
+                            SimulationData.MITES_RANDOM_NEW * (1 - queen.MitesResistance);
         float treatedMites = math.lerp(0, mites.TreatmentMultiplier, math.sqrt(mites.InfestationAmount));
         treatedMites = treatedMites * 4 + mites.TreatmentMultiplier;
-        float mitesGrowthRate =
-            math.lerp(0, SimulationData.MITES_MULTIPLICATION_RATE, math.sqrt(mites.InfestationAmount));
+        float mitesGrowthRate = 0f;
+        math.lerp(0, SimulationData.MITES_MULTIPLICATION_RATE, math.sqrt(mites.InfestationAmount));
         float newMites = 4 * mitesGrowthRate + randomMites;
         mites.InfestationAmount = math.clamp(mites.InfestationAmount + newMites - treatedMites, 0, 1);
     }

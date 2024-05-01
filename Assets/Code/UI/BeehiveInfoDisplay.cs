@@ -33,6 +33,8 @@ public class BeehiveInfoDisplay : MonoBehaviour
     public void UpdatePosition(float3 newPosition)
     {
         transform.position = (Vector3)newPosition + _offset;
+        transform.LookAt(_mainCameraTransform.position);
+
     }
 
     public void OnDisplayPanelChangeLeft()

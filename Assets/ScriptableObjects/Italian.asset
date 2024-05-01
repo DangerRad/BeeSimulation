@@ -24,10 +24,10 @@ MonoBehaviour:
       MitesResistance: 0.5
   colonyStats:
     Min:
-      Speed: 5
+      Speed: 6
       MaxFoodHeld: 0.01
       GatherSpeed: 0.005
     Max:
-      Speed: 7
+      Speed: 9
       MaxFoodHeld: 0.01
       GatherSpeed: 0.005
