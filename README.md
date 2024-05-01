@@ -17,15 +17,13 @@
   <summary>add new systems making simulation more complex</summary>
   
 - [x] add food consumption
-- [ ] When hive is shade and or isn't facing sunrise, bees go foraging later.
 - [X] add mites 
-- [ ] add diseases that reduce stats of the bees or the queen 
 - [x] bee dying probability on curve, with different parameters affecting mortality - weather/mites/etc
-- [ ] beehive size dependent on food stored 
+- [x] beehive size dependent on food stored 
 - [x] Queen life cycle
 - [x] random genes based on species 
 - [ ] beehive conditions - ventilation/temperature/space/..
-- [ ] control stats based on food quality - sugar lowest, natural nectar highest.
+
 </details>
 <details>
   <summary>add ability to intervene in simulation</summary>
