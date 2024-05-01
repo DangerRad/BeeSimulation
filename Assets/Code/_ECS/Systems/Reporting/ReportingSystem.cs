@@ -11,7 +11,8 @@ public partial struct ReportingSystem : ISystem
 
     public static event Action<float3> PanelPositionUpdated;
     // public static Action<int> PanelNumberChanged;
-    static int _currentPanel;
+    static int _panelToDisplay;
+    int _panelBeingDisplayed;
 
     public void OnDestroy(ref SystemState state)
     {
@@ -26,7 +27,7 @@ public partial struct ReportingSystem : ISystem
 
     public void PanelChanged(int panelNumber)
     {
-        _currentPanel = panelNumber;
+        _panelToDisplay = panelNumber;
     }
 
     public void OnUpdate(ref SystemState state)
@@ -34,13 +35,14 @@ public partial struct ReportingSystem : ISystem
         var hit = SystemAPI.GetSingleton<Hit>();
         var simulation = SystemAPI.GetSingleton<Simulation>();
 
-        if (hit.HitChanged || simulation.MakeSimulationStep())
+        if (hit.HitChanged || simulation.MakeSimulationStep() || _panelBeingDisplayed != _panelToDisplay)
         {
+            _panelBeingDisplayed = _panelToDisplay;
             Entity selectedEntity = hit.HitEntity;
             if (selectedEntity == Entity.Null)
                 return;
             string infoToDisplay = "";
-            switch (_currentPanel)
+            switch (_panelToDisplay)
             {
                 case 0:
                     infoToDisplay = HiveInfo(SystemAPI.GetComponent<Beehive>(selectedEntity));
