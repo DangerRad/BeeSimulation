@@ -1,5 +1,5 @@
 ﻿using Unity.Entities;
 
-public struct Delivering : IComponentData
+public struct Delivering : IComponentData, IEnableableComponent
 {
 }

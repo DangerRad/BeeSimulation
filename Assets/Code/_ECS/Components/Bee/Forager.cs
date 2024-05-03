@@ -1,5 +1,5 @@
 ﻿using Unity.Entities;
 
-public struct Forager : IComponentData
+public struct Forager : IComponentData, IEnableableComponent
 {
 }

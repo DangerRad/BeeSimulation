@@ -1,11 +1,5 @@
-﻿using System.Drawing;
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
-using Unity.Rendering;
-using Unity.Transforms;
-using UnityEngine;
-
 
 public partial struct BeeSquadSpawnSystem : ISystem
 {
@@ -35,6 +29,12 @@ public partial struct BeeSquadSpawnSystem : ISystem
             beeSquadEntityTemplate = state.EntityManager.Instantiate(simulation.BeePrefab);
             state.EntityManager.AddChunkComponentData<HiveChunkStats>(beeSquadEntityTemplate);
             state.EntityManager.SetComponentEnabled<Moving>(beeSquadEntityTemplate, false);
+            state.EntityManager.SetComponentEnabled<Searching>(beeSquadEntityTemplate, false);
+            state.EntityManager.SetComponentEnabled<Collecting>(beeSquadEntityTemplate, false);
+            state.EntityManager.SetComponentEnabled<Hiding>(beeSquadEntityTemplate, false);
+            state.EntityManager.SetComponentEnabled<Foraging>(beeSquadEntityTemplate, false);
+            state.EntityManager.SetComponentEnabled<Delivering>(beeSquadEntityTemplate, false);
+            state.EntityManager.SetComponentEnabled<Forager>(beeSquadEntityTemplate, false);
         }
 
         foreach (var QueenInHive in SystemAPI.Query<QueenInHiveAspect>())

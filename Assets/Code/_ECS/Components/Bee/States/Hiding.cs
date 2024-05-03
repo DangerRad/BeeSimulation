@@ -1,5 +1,5 @@
 ﻿using Unity.Entities;
 
-public struct Hiding : IComponentData
+public struct Hiding : IComponentData, IEnableableComponent
 {
 }

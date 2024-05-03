@@ -1,8 +1,4 @@
-﻿using Unity.Burst;
-using Unity.Entities;
-using Unity.Jobs;
-using UnityEngine;
-using Random = Unity.Mathematics.Random;
+﻿using Unity.Entities;
 
 [UpdateBefore(typeof(MoveSystem))]
 public partial struct ForagerSystem : ISystem
@@ -14,25 +10,21 @@ public partial struct ForagerSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-        var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
         state.Dependency = new ForageJob
         {
-            ECB = ECB,
-        }.Schedule(state.Dependency);
+        }.ScheduleParallel(state.Dependency);
     }
 }
 
-[WithDisabled(typeof(Moving))]
+[WithDisabled(typeof(Moving), typeof(Collecting))]
 [WithAll(typeof(Foraging))]
 public partial struct ForageJob : IJobEntity
 {
-    public EntityCommandBuffer ECB;
-
-    public void Execute(ref BeeSquad beeSquad, ref Timer timer, Entity entity)
+    public void Execute(ref Timer timer, EnabledRefRW<Foraging> foraging,
+        EnabledRefRW<Collecting> collecting)
     {
         timer.TimeLeft = SimulationData.TIME_SPENT_COLLECTING;
-        ECB.RemoveComponent<Foraging>(entity);
-        ECB.AddComponent<Collecting>(entity);
+        foraging.ValueRW = false;
+        collecting.ValueRW = true;
     }
 }

@@ -1,8 +1,5 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
-using Unity.Jobs;
-using Unity.Mathematics;
-using UnityEngine;
 
 [UpdateBefore(typeof(MoveSystem))]
 public partial struct DeliverSystem : ISystem
@@ -15,27 +12,19 @@ public partial struct DeliverSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-        var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
-        state.Dependency = new DeliverToHiveJob
-        {
-            ECB = ECB,
-        }.Schedule(state.Dependency);
+        state.Dependency = new DeliverToHiveJob().ScheduleParallel(state.Dependency);
     }
 }
 
 [BurstCompile]
 [WithAll(typeof(Delivering))]
-[WithDisabled(typeof(Moving))]
+[WithDisabled(typeof(Moving), typeof(Roaming))]
 public partial struct DeliverToHiveJob : IJobEntity
 {
-    public EntityCommandBuffer ECB;
-
-    public void Execute(ref BeeSquad beeSquad, Entity entity)
+    public void Execute(ref BeeSquad beeSquad, EnabledRefRW<Delivering> delivering, EnabledRefRW<Roaming> roaming)
     {
         beeSquad.FoodHeld = 0;
-        ECB.RemoveComponent<Delivering>(entity);
-        ECB.AddComponent<Roaming>(entity);
+        delivering.ValueRW = false;
+        roaming.ValueRW = true;
     }
 }

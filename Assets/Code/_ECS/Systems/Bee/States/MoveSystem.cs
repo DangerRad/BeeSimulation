@@ -1,6 +1,5 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
@@ -14,13 +13,10 @@ public partial struct MoveSystem : ISystem
 
     public void OnUpdate(ref SystemState state)
     {
-        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-        var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
         state.Dependency = new MoveJob
         {
             dt = SystemAPI.Time.DeltaTime,
-            ECB = ECB,
-        }.Schedule(state.Dependency);
+        }.ScheduleParallel(state.Dependency);
     }
 }
 
@@ -29,9 +25,9 @@ public partial struct MoveSystem : ISystem
 public partial struct MoveJob : IJobEntity
 {
     public float dt;
-    public EntityCommandBuffer ECB;
 
-    public void Execute(in Target target, in BeeColonyStats beeColony, ref LocalTransform transform, Entity entity)
+    public void Execute(in Target target, in BeeColonyStats beeColony, ref LocalTransform transform, Entity entity,
+        EnabledRefRW<Moving> moving)
     {
         float3 moveDirection = target.Position - transform.Position;
         float3 moveVector = math.normalize(moveDirection) * (beeColony.Speed * dt);
@@ -40,8 +36,9 @@ public partial struct MoveJob : IJobEntity
         if (math.lengthsq(moveDirection) <= math.lengthsq(moveVector))
         {
             newPosition = target.Position;
-            ECB.SetComponentEnabled<Moving>(entity, false);
+            moving.ValueRW = false;
         }
+
         else
         {
             newPosition = moveVector + transform.Position;

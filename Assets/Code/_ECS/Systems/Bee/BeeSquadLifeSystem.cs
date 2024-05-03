@@ -42,29 +42,25 @@ public partial struct BeeSquadLifeSystem : ISystem
             FoodScarcityLookup = foodScarcityLookup
         }.ScheduleParallel(state.Dependency);
         state.Dependency.Complete();
-
         state.Dependency = new BeeSquadPromotionJob()
         {
             TicksToPromotion = ticksToLive,
-            ECB = ECB.AsParallelWriter()
-        }.ScheduleParallel(state.Dependency);
+        }.Schedule(state.Dependency);
     }
 }
 
 [BurstCompile]
-[WithNone(typeof(Forager))]
+[WithDisabled(typeof(Forager))]
 [WithAll(typeof(BeeColonyStats))]
 public partial struct BeeSquadPromotionJob : IJobEntity
 {
     public int TicksToPromotion;
-    public EntityCommandBuffer.ParallelWriter ECB;
 
-
-    public void Execute([ChunkIndexInQuery] int chunkIndex, in Lifespan lifespan, in Entity entity)
+    public void Execute(in Lifespan lifespan, EnabledRefRW<Forager> forager)
     {
         if (lifespan.TicksToLive <= TicksToPromotion)
         {
-            ECB.AddComponent<Forager>(chunkIndex, entity);
+            forager.ValueRW = true;
         }
     }
 }

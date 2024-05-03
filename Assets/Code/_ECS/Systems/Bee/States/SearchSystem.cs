@@ -4,6 +4,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Random = Unity.Mathematics.Random;
 
 [UpdateBefore(typeof(MoveSystem))]
 public partial struct SearchSystem : ISystem
@@ -16,45 +17,43 @@ public partial struct SearchSystem : ISystem
         state.RequireForUpdate<Searching>();
         flowerQuery = state.EntityManager.CreateEntityQuery(typeof(Flower));
         transformsLookUp = state.GetComponentLookup<LocalTransform>();
+        state.RequireForUpdate<Collecting>();
+
     }
 
     public void OnUpdate(ref SystemState state)
     {
-        var flowerEntities = flowerQuery.ToEntityListAsync(Allocator.TempJob, state.Dependency, out var dep);
-        var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
-        var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
         transformsLookUp.Update(ref state);
-
+        var flowerEntities = flowerQuery.ToEntityListAsync(Allocator.TempJob, state.Dependency, out var dep);
 
         state.Dependency = new SearchJob
         {
             TransformLookUp = transformsLookUp,
             FlowerEntities = flowerEntities.AsDeferredJobArray(),
             Time = SystemAPI.Time.ElapsedTime,
-            ECB = ECB,
         }.Schedule(JobHandle.CombineDependencies(dep, state.Dependency));
-        state.Dependency.Complete();
-        flowerEntities.Dispose();
+        flowerEntities.Dispose(state.Dependency);
     }
 }
 
 [BurstCompile]
 [WithAll(typeof(Searching))]
-[WithDisabled(typeof(Moving))]
+[WithDisabled(typeof(Moving), typeof(Roaming), typeof(Foraging))]
 public partial struct SearchJob : IJobEntity
 {
     [ReadOnly] public ComponentLookup<LocalTransform> TransformLookUp;
     public NativeArray<Entity> FlowerEntities;
     public double Time;
-    public EntityCommandBuffer ECB;
     public Random Rng;
 
-    public void Execute(ref Target target, in HiveLocationInfo info, in Entity entity)
+    public void Execute(ref Target target, in HiveLocationInfo info, in Entity entity,
+        EnabledRefRW<Searching> searching, EnabledRefRW<Roaming> roaming, EnabledRefRW<Foraging> foraging,
+        EnabledRefRW<Moving> moving)
     {
         if (FlowerEntities.Length == 0)
         {
-            ECB.AddComponent<Roaming>(entity);
-            ECB.RemoveComponent<Searching>(entity);
+            searching.ValueRW = false;
+            roaming.ValueRW = true;
         }
         else
         {
@@ -63,9 +62,9 @@ public partial struct SearchJob : IJobEntity
             Entity randomizedEntity = FlowerEntities[Rng.NextInt(0, FlowerEntities.Length)];
             target.Position = TransformLookUp[randomizedEntity].Position + new float3(0, 0.15f, 0);
             target.Entity = randomizedEntity;
-            ECB.SetComponentEnabled<Moving>(entity, true);
-            ECB.AddComponent<Foraging>(entity);
-            ECB.RemoveComponent<Searching>(entity);
+            moving.ValueRW = true;
+            foraging.ValueRW = true;
+            searching.ValueRW = false;
         }
     }
 }

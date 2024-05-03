@@ -1,10 +1,7 @@
-﻿using System.Xml;
-using Unity.Burst;
+﻿using Unity.Burst;
 using Unity.Collections;
 using Unity.Entities;
-using Unity.Jobs;
 using Unity.Mathematics;
-using UnityEngine;
 
 [UpdateBefore(typeof(MoveSystem))]
 public partial struct CollectSystem : ISystem
@@ -37,7 +34,7 @@ public partial struct CollectSystem : ISystem
 
 [BurstCompile]
 [WithAll(typeof(Collecting))]
-[WithDisabled(typeof(Moving))]
+[WithDisabled(typeof(Moving), typeof(Searching), typeof(Delivering))]
 public partial struct CollectJob : IJobEntity
 {
     public EntityCommandBuffer ECB;
@@ -46,14 +43,14 @@ public partial struct CollectJob : IJobEntity
     [ReadOnly] public ComponentLookup<Beehive> HiveLookUp;
 
     public void Execute(ref BeeSquad beeSquad, ref Timer timer, ref Target target, in BeeColonyStats stats,
-        HiveLocationInfo info, Entity entity)
+        HiveLocationInfo info, Entity entity, EnabledRefRW<Searching> searching, EnabledRefRW<Collecting> collecting,
+        EnabledRefRW<Moving> moving, EnabledRefRW<Delivering> delivering)
     {
         timer.TimeLeft -= dt;
-
         if (timer.TimeLeft < 0)
         {
-            ECB.AddComponent<Searching>(entity);
-            ECB.RemoveComponent<Collecting>(entity);
+            collecting.ValueRW = false;
+            searching.ValueRW = true;
         }
         else
         {
@@ -62,11 +59,12 @@ public partial struct CollectJob : IJobEntity
             float spaceLeftInBackpack = stats.MaxFoodHeld * beeSquad.Size - beeSquad.FoodHeld;
             float nectarLeftOnFlower = flower.NectarHeld;
             float maximumClamp = math.max(spaceLeftInBackpack, nectarLeftOnFlower);
-            float finalNectarToCollect = math.clamp(nectarToCollect, 0, maximumClamp);
-            flower.NectarHeld -= finalNectarToCollect;
-            beeSquad.FoodHeld += finalNectarToCollect;
+            float finalValueNectarToCollect = math.clamp(nectarToCollect, 0, maximumClamp);
+            flower.NectarHeld -= finalValueNectarToCollect;
+            beeSquad.FoodHeld += finalValueNectarToCollect;
             Beehive beehive = HiveLookUp[info.BeehiveEntity];
-            beehive[(int)flower.Species] += finalNectarToCollect;
+            beehive[(int)flower.Species] += finalValueNectarToCollect;
+
 
             ECB.SetComponent(target.Entity, flower);
             ECB.SetComponent(entity, beeSquad);
@@ -74,16 +72,16 @@ public partial struct CollectJob : IJobEntity
 
             if (flower.NectarHeld <= 0)
             {
-                ECB.AddComponent<Searching>(entity);
-                ECB.RemoveComponent<Collecting>(entity);
+                searching.ValueRW = true;
+                collecting.ValueRW = false;
                 ECB.SetComponentEnabled<Flower>(target.Entity, false);
             }
             else if (spaceLeftInBackpack <= 0)
             {
-                ECB.RemoveComponent<Collecting>(entity);
-                ECB.SetComponentEnabled<Moving>(entity, true);
-                ECB.AddComponent<Delivering>(entity);
-                ECB.SetComponent(entity, new Target { Position = info.HivePosition + new float3(0, 1, 0) });
+                collecting.ValueRW = false;
+                moving.ValueRW = true;
+                delivering.ValueRW = true;
+                target.Position = info.HivePosition + new float3(0, 1, 0);
             }
         }
     }
