@@ -17,6 +17,7 @@ public class BeehiveAuthoring : MonoBehaviour
             AddComponent(entity, new RandomData());
             AddComponent(entity, new Beehive());
             AddComponent(entity, new FoodScarcity());
+            // AddComponent(entity, new Lifespan());
         }
     }
 }

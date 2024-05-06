@@ -4,23 +4,29 @@ using Unity.Entities;
 using UnityEngine;
 using Random = Unity.Mathematics.Random;
 
+//todo convert to Isystem
 public partial class QueenSpawnSystem : SystemBase
 {
     BeeSpeciesSO[] _beeSpeciesSO;
     NativeParallelHashMap<byte, QueenRandomStats> _queenRandomStatsLookUp;
-
-    protected override void OnCreate()
-    {
-        RequireForUpdate<LarvaQueen>();
-    }
+    EntityArchetype _queenRandomArchetype;
 
     protected override void OnDestroy()
     {
         _queenRandomStatsLookUp.Dispose();
     }
 
+    protected override void OnCreate()
+    {
+        RequireForUpdate<LarvaQueen>();
+        RequireForUpdate<Simulation>();
+    }
+
     protected override void OnStartRunning()
     {
+        RequireForUpdate<LarvaQueen>();
+        RequireForUpdate<Simulation>();
+        _queenRandomArchetype = EntityManager.CreateArchetype(typeof(QueenRandomStats));
         _beeSpeciesSO = GameObject.FindObjectOfType<SimulationManager>().BeeSpecies;
 
         int numberOfSpecies = _beeSpeciesSO.Length;
@@ -37,15 +43,18 @@ public partial class QueenSpawnSystem : SystemBase
             queenStats.Colony = SO.ColonyStats;
             byte key = (byte)queenStats.Species;
             _queenRandomStatsLookUp.Add(key, queenStats);
+            // var entity = EntityManager.CreateEntity(_queenRandomArchetype);
+            // EntityManager.SetComponentData(entity, queenStats);
         }
     }
 
     protected override void OnUpdate()
     {
-        //todo convert to Isystem
         var simulation = SystemAPI.GetSingleton<Simulation>();
         if (!simulation.MakeSimulationStep())
             return;
+
+
         Entities.WithAll<LarvaQueen>().WithNone<Beehive, Queen>().WithStructuralChanges().ForEach(
                 (in LarvaQueen larvaQueen, in Entity entity) =>
                 {

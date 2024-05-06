@@ -29,6 +29,8 @@ public class SimulationAuthoring : MonoBehaviour
                 TicksInSeason = authoring.TicksInYear / 4,
             });
             AddComponent<Hit>(entity);
+            AddComponent<BeehvieSpawnInfo>(entity);
+            AddComponent<InputState>(entity);
         }
 
         BlobAssetReference<BirthRateOverYearData> CreateBirthRateOverYearBlob(SimulationAuthoring authoring)

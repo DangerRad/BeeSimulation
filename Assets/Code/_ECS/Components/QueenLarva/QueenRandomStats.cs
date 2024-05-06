@@ -1,7 +1,7 @@
 ﻿using Code.Core;
 using Unity.Entities;
 
-public struct QueenRandomStats
+public struct QueenRandomStats : IComponentData
 {
     public BeeSpecies Species;
     public RandomRange<QueenStats> Queen;

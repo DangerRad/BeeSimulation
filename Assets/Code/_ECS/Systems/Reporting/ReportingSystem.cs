@@ -8,7 +8,6 @@ using UnityEngine;
 public partial struct ReportingSystem : ISystem
 {
     public static event Action<string> PanelTextUpdated;
-
     public static event Action<float3> PanelPositionUpdated;
     // public static Action<int> PanelNumberChanged;
     static int _panelToDisplay;
@@ -40,7 +39,11 @@ public partial struct ReportingSystem : ISystem
             _panelBeingDisplayed = _panelToDisplay;
             Entity selectedEntity = hit.HitEntity;
             if (selectedEntity == Entity.Null)
+            {
+                PanelPositionUpdated?.Invoke(new float3(0, -10, 0));
                 return;
+            }
+
             string infoToDisplay = "";
             switch (_panelToDisplay)
             {

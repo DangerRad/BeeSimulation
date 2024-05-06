@@ -131,6 +131,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2170734696416794684, guid: b3c43128e0791bf499479031be566185,
+        type: 3}
+      propertyPath: SpawnArea
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 2170734696416794684, guid: b3c43128e0791bf499479031be566185,
+        type: 3}
+      propertyPath: FlowerScale
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2170734696416794684, guid: b3c43128e0791bf499479031be566185,
+        type: 3}
+      propertyPath: spawnAmount
+      value: 500
+      objectReference: {fileID: 0}
     - target: {fileID: 4071768583540414018, guid: b3c43128e0791bf499479031be566185,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -202,13 +217,18 @@ PrefabInstance:
     - target: {fileID: 1392235343594268673, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}
       propertyPath: Amount
-      value: 50
+      value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392235343594268673, guid: 88328ae32f8a3b44ba0c351e034dd69e,
+        type: 3}
+      propertyPath: SpawnArea
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 1392235343594268673, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}
       propertyPath: BeehivePrefab
       value: 
-      objectReference: {fileID: 7950146462125575582, guid: a0510262b1382374dac5dbfc1265c90c,
+      objectReference: {fileID: 418376529547178692, guid: d8fd8ec11dc098d41b6d57925f1b6976,
         type: 3}
     - target: {fileID: 1717185776750190805, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}
@@ -264,12 +284,12 @@ PrefabInstance:
         type: 3}
       propertyPath: BeePrefab
       value: 
-      objectReference: {fileID: 2271528422966368072, guid: 09fa6c76986a98a40a339e9300db68da,
+      objectReference: {fileID: 3685791884867939543, guid: 33b36342762b9a5409a325723999e359,
         type: 3}
     - target: {fileID: 2007507673836039395, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}
       propertyPath: TickLength
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 2480797512116040116, guid: 88328ae32f8a3b44ba0c351e034dd69e,
         type: 3}

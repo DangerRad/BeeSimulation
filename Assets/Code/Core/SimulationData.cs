@@ -12,7 +12,7 @@ public static class SimulationData
 
     //BeeSquads
     public const int MAX_SQUAD_SIZE = 250;
-    public const float TIME_SPENT_COLLECTING = 1f;
+    public const float TIME_SPENT_COLLECTING = 0.2f;
     // public const float BEE_SPEED = 5;
     // public const float FOOD_GATHER_SPEED = 0.006F;
     // public const float MAX_FOOD_HELD = 0.003F;

@@ -15,19 +15,19 @@ MonoBehaviour:
   _species: 0
   _queenStats:
     Min:
-      TicksToLive: 501
+      TicksToLive: 500
       BeesBirthTick: 1000
       MitesResistance: 0.5
     Max:
-      TicksToLive: 2000
+      TicksToLive: 1000
       BeesBirthTick: 2000
       MitesResistance: 0.5
   colonyStats:
     Min:
-      Speed: 6
+      Speed: 44
       MaxFoodHeld: 0.01
       GatherSpeed: 0.005
     Max:
-      Speed: 9
+      Speed: 44
       MaxFoodHeld: 0.01
       GatherSpeed: 0.005

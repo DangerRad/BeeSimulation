@@ -9,6 +9,7 @@ using Random = Unity.Mathematics.Random;
 
 //used only to showcase simulation
 //won't be used in final project
+//TODO delete when more Permanent spawner shows up.
 [BurstCompile]
 public partial class BeehiveSpawnSystem : SystemBase
 {

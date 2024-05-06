@@ -4,7 +4,6 @@ using Unity.Burst.Intrinsics;
 using Unity.Collections;
 using Unity.Entities;
 using Unity.Mathematics;
-using UnityEngine;
 
 //todo refactor, split
 public partial struct BeehivePopulationSystem : ISystem
@@ -23,7 +22,7 @@ public partial struct BeehivePopulationSystem : ISystem
         state.RequireForUpdate<Simulation>();
         state.RequireForUpdate<Beehive>();
 
-        populationByHIveID = new NativeParallelHashMap<int, int>(100, Allocator.Persistent);
+        populationByHIveID = new NativeParallelHashMap<int, int>(200, Allocator.Persistent);
         totalBeeSquadCount = new NativeArray<int>(1, Allocator.Persistent);
         squadHiveIdHandle = state.GetSharedComponentTypeHandle<SquadHiveID>();
         hiveChunkHandle = state.GetComponentTypeHandle<HiveChunkStats>();
@@ -46,17 +45,15 @@ public partial struct BeehivePopulationSystem : ISystem
         if (!simulation.ValueRO.MakeSimulationStep())
             return;
         simulation.ValueRW.BeeSquadCount = totalBeeSquadCount[0];
-        if (!populationByHIveID.ContainsKey(0))
+
+        foreach (var beehive in SystemAPI.Query<RefRO<Beehive>>())
         {
-            foreach (var beehive in SystemAPI.Query<RefRO<Beehive>>())
+            if (!populationByHIveID.ContainsKey(beehive.ValueRO.Id))
             {
                 populationByHIveID.TryAdd(beehive.ValueRO.Id, 0);
             }
-        }
 
-        foreach (var hivePopulation in populationByHIveID)
-        {
-            hivePopulation.Value = 0;
+            populationByHIveID[beehive.ValueRO.Id] = 0;
         }
 
         totalBeeSquadCount[0] = 0;

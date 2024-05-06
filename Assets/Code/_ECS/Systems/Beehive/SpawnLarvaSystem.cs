@@ -1,14 +1,12 @@
 ﻿using Unity.Burst;
 using Unity.Entities;
-using Unity.Mathematics;
 
-public partial struct QueenSystem : ISystem
+public partial struct SpawnLarvaSystem : ISystem
 {
     EntityArchetype larvaArchetype;
 
     public void OnCreate(ref SystemState state)
     {
-        state.RequireForUpdate<Queen>();
         state.RequireForUpdate<Beehive>();
         larvaArchetype = state.EntityManager.CreateArchetype(typeof(LarvaQueen), typeof(Lifespan));
     }
@@ -22,11 +20,6 @@ public partial struct QueenSystem : ISystem
 
         var ecbSingleton = SystemAPI.GetSingleton<EndSimulationEntityCommandBufferSystem.Singleton>();
         var ECB = ecbSingleton.CreateCommandBuffer(state.WorldUnmanaged);
-
-        state.Dependency = new ManageQueenFertility()
-        {
-            ECB = ECB
-        }.Schedule(state.Dependency);
 
         state.Dependency = new SpawnQueenLarva()
         {
@@ -42,35 +35,19 @@ public partial struct QueenSystem : ISystem
 }
 
 [BurstCompile]
-[WithAll(typeof(Lifespan), typeof(Beehive))]
-public partial struct ManageQueenFertility : IJobEntity
-{
-    public EntityCommandBuffer ECB;
-
-    public void Execute(in Queen queen, in Lifespan lifespan, Entity entity)
-    {
-        //todo find better parametrised function to calculate fertility
-        float newFertility = queen.Fertility - math.pow(1.0f / ((lifespan.TicksToLive - 30.0f) / 20), 2);
-        var newQueenData = queen;
-        newQueenData.Fertility = math.max(0.1f, newFertility);
-        ECB.SetComponent(entity, newQueenData);
-    }
-}
-
-[BurstCompile]
 public partial struct SpawnQueenLarva : IJobEntity
 {
     public EntityCommandBuffer ECB;
     public EntityArchetype LarvaArchetype;
 
-    public void Execute(in Queen queen, in Beehive hive, ref HiveLarvaQueenData hiveLarvaData, Entity entity)
+    public void Execute(ref HiveLarvaQueenData hiveLarvaData, Entity entity)
     {
         if (hiveLarvaData.LarvaCount <= SimulationData.MAX_QUEEN_LARVAE_IN_HIVE)
         {
             hiveLarvaData.LarvaCount += 1;
             var larvaEntity = ECB.CreateEntity(LarvaArchetype);
             ECB.SetComponent(larvaEntity, new Lifespan(SimulationData.LARVA_LIFESPAN));
-            LarvaQueen larvaQueen = new LarvaQueen(queen.Species, hive.Id, entity);
+            LarvaQueen larvaQueen = new LarvaQueen(hiveLarvaData.Species, entity);
             ECB.SetComponent(larvaEntity, larvaQueen);
         }
     }
